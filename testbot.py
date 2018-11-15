@@ -2,13 +2,14 @@ import pyautogui, sys
 import time
 import pyperclip
 import random
+import string
 
 print('Press Ctrl-C to quit.')
 
 correctAnswers = []
-rightAnswer = []
 texts = []
 locations = []
+last = []
 
 while True:
     print("Montako kysymystä?")
@@ -17,41 +18,68 @@ while True:
 while (len(correctAnswers)) < questions:
     pyautogui.scroll(-2000)
     time.sleep(1)
+    pyautogui.scroll(-2000)
+    pyautogui.scroll(-2000)
     pos = None
+    done = False
     while pos is None:
         for pos in pyautogui.locateAllOnScreen('blue.png'):
-            pyautogui.moveTo(pos[0]+5,pos[1]+5)
-            pyautogui.dragRel(650, 40, 0.5, button='left')
-            pyautogui.hotkey('ctrl', 'c')
-            texts.append(   pyperclip.paste()  ,  (pos[0],pos[1])   )
-            locations.append(pos[0],post[1])
-            # print (pos)
-            # print (locations)
+            if done == False:
+                pyautogui.scroll(-2000)
+                pyautogui.moveTo(pos[0]-20,pos[1]+5)
+                pyautogui.dragRel(700, 37, 0.2, button='left')
+                pyautogui.hotkey('ctrl', 'c')
+                valinta = pyperclip.paste()
+                valinta = valinta.split(".")
+                valinta = valinta[0]
+                valinta.splitlines()
+                texts.append(valinta)
+                last.append(valinta)
+                locations.append((pos[0],pos[1]))
+                for i in range(len(texts)):
+                    if (texts[i] in correctAnswers):
+                        pyautogui.click(locations[i])
+                        done = True
+                        # pyautogui.click(pyautogui.locateCenterOnScreen('next.png'))
+                        # time.sleep(1)
+                print(correctAnswers)
+                print(texts)
         choices = len(texts)
         print("Valintoja yhteensä:", choices)
-        for i in texts:
-            if i in correctAnswers:
-                pyautogui.click(i[1])
+        amountCorrect = len(correctAnswers)
         texts = []
+        locations = []
 
     while True:
-        if pyautogui.locateCenterOnScreen('green.png') == None:
-            x,y = locations[0][0],locations[0][1]
-            pyautogui.click(x,y)
-
-        if pyautogui.locateCenterOnScreen('green.png') != None:
-            print("correct answer")
-            green = pyautogui.locateOnScreen('green.png')
-            pyautogui.moveTo(green[0],green[1])
-            pyautogui.dragRel(700, 50, 0.5, button='left')
-            pyautogui.hotkey('ctrl', 'c')
-            if pyperclip.paste() in correctAnswers:
-                pyautogui.click(pyautogui.locateCenterOnScreen('next.png'))
-            else:
-                correctAnswers.append(pyperclip.paste())
-                pyautogui.click(pyautogui.locateCenterOnScreen('next.png'))
-            break
-
-        else:
+        pyautogui.click(pyautogui.locateCenterOnScreen('blue.png'))
+        time.sleep(1)
+        if pyautogui.locateOnScreen('green.png') == None:
             print("wrong answer")
             pyautogui.click(pyautogui.locateCenterOnScreen('restart.png'))
+            break
+
+        elif pyautogui.locateOnScreen('green.png') != None:
+            print("correct answer")
+            # for i in range(len(last)):
+            #     if (last[i] not in correctAnswers):
+            green = pyautogui.locateOnScreen('green.png')
+            pyautogui.moveTo(green[0],green[1])
+            pyautogui.dragRel(700, 50, 0.2, button='left')
+            pyautogui.hotkey('ctrl', 'c')
+            rightAnswer = pyperclip.paste()
+            rightAnswer = rightAnswer.split(".")
+            rightAnswer = rightAnswer[0]
+            rightAnswer = rightAnswer.splitlines()
+            if len(rightAnswer) > 1:
+                rightAnswer = rightAnswer[1]
+            if rightAnswer in correctAnswers:
+                pyautogui.click(pyautogui.locateCenterOnScreen('next.png'))
+                pyautogui.click(pyautogui.locateCenterOnScreen('next2.png'))
+                pyautogui.scroll(-2000)
+                break
+            else:
+                correctAnswers.append(rightAnswer)
+                pyautogui.click(pyautogui.locateCenterOnScreen('next.png'))
+                pyautogui.click(pyautogui.locateCenterOnScreen('next2.png'))
+                pyautogui.scroll(-2000)
+                break

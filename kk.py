@@ -1,6 +1,5 @@
-import pyautogui
-pos = None
-while True:
-    while pos is None:
-        for pos in pyautogui.locateAllOnScreen('blue.png'):
-            print(pos)
+valinta = ['tangon massa...vähenee\r\n']
+#valinta = valinta[0]
+
+#valinta[:valinta.find("\r")]
+print(valinta[0])
