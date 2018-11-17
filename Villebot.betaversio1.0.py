@@ -1,4 +1,4 @@
-import pyautogui
+import pyautogui,sys
 import time
 import pyperclip
 import random
@@ -9,20 +9,25 @@ print('Press Ctrl-Alt-Del to stop the bot.')
 texts = []
 locations = []
 choices = []
-last = []
+last = ['none','none','none','none','none']
 wrong = []
 correctAnswers = []
 task = 0
 
 print("Montako kysymystä?")
 questions = int(input())
+time.sleep(3)
+#pyautogui.press('f11')
 
 while (len(correctAnswers)) < questions-1:
-    time.sleep(1)
+    time.sleep(0.2)
     for i in range(5):
         pyautogui.press('pgdn')
+    time.sleep(1)
     pos = None
     done = False
+    print("Task nr: ",task)
+    print("length of correctAnswers: ",len(correctAnswers))
     while pos is None:
         for pos in pyautogui.locateAllOnScreen('blue2.png'):
             if done == False:
@@ -30,7 +35,7 @@ while (len(correctAnswers)) < questions-1:
                 pyautogui.dragRel(700, 45, 0.2, button='left')
                 pyautogui.hotkey('ctrl', 'c')
                 copiedText = pyperclip.paste()
-                copiedText.splitlines()
+                copiedText.strip("\r\n")
                 texts.append(copiedText)
                 last.append(copiedText)
                 locations.append((pos[0]+5,pos[1]+5))
@@ -41,12 +46,13 @@ while (len(correctAnswers)) < questions-1:
                             pyautogui.click(locations[i])
                             done = True
 
+        print("Correct answers: ",correctAnswers)
         print("Wrong answers: ",wrong)
+        print("\nVäärien määrä: ",len(wrong))
         texts = []
         locations = []
 
     while True:
-
         if last[-1] in wrong:
             pass
             if last[-2] in wrong:
@@ -72,11 +78,20 @@ while (len(correctAnswers)) < questions-1:
         if pyautogui.locateOnScreen('green.png') != None:
             print("\nCorrect answer:")
             print(last[-1],"\n")
+
+            for i in range(5):
+                pyautogui.press('pgdn')
             task += 1
             if last[-1] in correctAnswers:
-                pyautogui.click(pyautogui.locateCenterOnScreen('next.png'))
-                time.sleep(0.2)
-                pyautogui.click(pyautogui.locateCenterOnScreen('next2.png'))
+                next2 = pyautogui.locateCenterOnScreen('next2.png')
+                next = pyautogui.locateCenterOnScreen('next.png')
+                if next is None:
+                    pyautogui.click(next2)
+                else:
+                    pyautogui.click(next)
+                for i in range(5):
+                    pyautogui.press('pgdn')
+                time.sleep(0.5)
                 break
             else:
                 wrong = []
@@ -84,17 +99,22 @@ while (len(correctAnswers)) < questions-1:
                 pyautogui.moveTo(green[0],green[1])
                 pyautogui.dragRel(700, 45, 0.2, button='left')
                 pyautogui.hotkey('ctrl', 'c')
-                correctAnswer = pyperclip.paste()
-                correctAnswer.splitlines()
-                if len(correctAnswer) > 1:
-                    correctAnswer = correctAnswer[1]
-                correctAnswers.append(correctAnswer)
-                pyautogui.click(pyautogui.locateCenterOnScreen('next.png'))
-                time.sleep(0.2)
-                pyautogui.click(pyautogui.locateCenterOnScreen('next2.png'))
+                rightAnswer = pyperclip.paste()
+                correctAnswers.append(rightAnswer.strip("\r\n"))
+                next2 = pyautogui.locateCenterOnScreen('next2.png')
+                next = pyautogui.locateCenterOnScreen('next.png')
+                if next is None:
+                    pyautogui.click(next2)
+                else:
+                    pyautogui.click(next)
+                for i in range(5):
+                    pyautogui.press('pgdn')
+                time.sleep(0.5)
                 break
 
         if pyautogui.locateOnScreen('green.png') == None:
+            if len(wrong) > 5:
+                wrong = []
             task = 0
             print("\nWrong answer:")
             print(n,"\n")
@@ -106,7 +126,7 @@ while (len(correctAnswers)) < questions-1:
 
 print("Correct answers: ")
 nr = 1
-for i in correctAnswers
+for i in correctAnswers:
     print(nr,": ",i)
     nr += 1
 while True:
