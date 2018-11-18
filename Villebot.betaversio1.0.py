@@ -1,8 +1,8 @@
 import pyautogui,sys
 import time
 import pyperclip
-import random
 import string
+import PySimpleGUI as sg
 
 print('Press Ctrl-Alt-Del to stop the bot.')
 
@@ -14,12 +14,17 @@ wrong = []
 correctAnswers = []
 task = 0
 
-print("Montako kysymystä?")
-questions = int(input())
-time.sleep(3)
+layout = [[sg.Text('Montako kysymystä?')],
+          [sg.Input(do_not_clear=True)],
+          [sg.Button('OK'),sg.Button('Start'),sg.Button('Pause'),sg.Button('Unpause'),sg.Exit()]]
+window = sg.Window('VILLEbot v0.9', keep_on_top = True).Layout(layout)
 #pyautogui.press('f11')
 
 while (len(correctAnswers)) < questions-1:
+    event, values = window.Read()
+    if event is None or event == 'Exit':
+        break
+    print(event, values[0])
     time.sleep(0.2)
     for i in range(5):
         pyautogui.press('pgdn')
