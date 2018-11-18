@@ -1,4 +1,5 @@
 import pyautogui,sys
+import os
 import time
 import pyperclip
 import string
@@ -19,10 +20,10 @@ def main():
 
     layout = [[sg.Text('Montako kysymystä?'), sg.Text('', key='_OUTPUT_') ],
               [sg.Input(size=(40,3),do_not_clear=False, key='_IN_')],
-              [sg.Checkbox('F11', size=(10,1), key='_F11_')],
+              #[sg.Checkbox('F11', size=(10,1), key='_F11_')],
               [sg.Text('', key='_STUFF_',size=(40, 3))],
               [sg.Output(size=(40,30))],
-              [sg.Button('OK'),sg.Button('Start'),sg.Button('Pause'),sg.Button('Unpause'),sg.Exit()]]
+              [sg.Button('OK'),sg.Button('F11'),sg.Button('Start'),sg.Exit()]]
 
 
     window = sg.Window('VILLEbot v0.9',auto_size_text=True, keep_on_top = True).Layout(layout)
@@ -33,17 +34,16 @@ def main():
         event, values = window.Read(timeout=0)
         if event is None or event == 'Exit':
             break
-        if values['_F11_']:
-            #pyautogui.press('f11')
-            pass
+        if event == 'F11':
+            pyautogui.moveRel(-100,0)
+            pyautogui.click()
+            pyautogui.press('f11')
+            pyautogui.moveRel(100,0)
         if event == 'OK':
             questions = int(values['_IN_'])
             window.FindElement('_OUTPUT_').Update(values['_IN_'])
-            #window.FindElement('_STUFF_').Update(values['_IN_'])
-            #sg.Print(values['_IN_'],keep_on_top = True)
         if event == 'Start':
             while (len(correctAnswers)) < questions-1:
-                #time.sleep(0.2)
                 for i in range(5):
                     pyautogui.press('pgdn')
                 pos = None
@@ -70,13 +70,9 @@ def main():
                                         pyautogui.click(locations[i])
                                         window.Read(timeout=0)
                                         done = True
-
-                    # print("Correct answers: ",correctAnswers)
-                    # print("Wrong answers: ",wrong)
                     texts = []
                     locations = []
                     window.Read(timeout=0)
-
                 while True:
                     if last[-1] in wrong:
                         pass
@@ -156,7 +152,8 @@ def main():
                         print("\nVäärä vastaus:")
                         print(n,"\n")
                         wrong.append(n)
-                        pyautogui.click(pyautogui.locateCenterOnScreen('restart.png'))
+                        restart = pyautogui.locateOnScreen('restart.png')
+                        pyautogui.click(restart)
                         print("\nArvattu ",len(wrong)," kertaa tehtävää numero",len(correctAnswers)+1,"\n")
                         window.Read(timeout=0)
                         for i in range(5):
@@ -168,7 +165,13 @@ def main():
             for i in correctAnswers:
                 print(nr,": ",i)
                 nr += 1
-            while True:
-                window.Read(timeout=0)
+            window.Read(timeout=0)
     window.Close()
-main()
+try:
+    main()
+except ValueError:
+    print('Interrupted')
+    try:
+        sys.exit(0)
+    except SystemExit:
+        os._exit(0)
