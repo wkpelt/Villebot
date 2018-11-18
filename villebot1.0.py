@@ -17,19 +17,20 @@ def main():
     wrong = []
     task = 0
 
-
-    layout = [[sg.Text('Montako kysymystä?'), sg.Text('', key='_OUTPUT_', text_color=('blue')) ],
+    #sg.ChangeLookAndFeel('Black')
+    layout = [[sg.Text('Montako kysymystä?'), sg.Text('', key='_OUTPUT_', text_color=('blue'),background_color=('white'),size=(17,1)) ],
               [sg.Input(size=(40,3),do_not_clear=False, key='_IN_')],
-              [sg.Text('Tehtäväsarjan nimi?'), sg.Text('', key='_OUTPUT2_', text_color=('blue')) ],
+              [sg.Text('Tehtäväsarjan nimi?'), sg.Text('', key='_OUTPUT2_', text_color=('blue'),background_color=('white'),size=(17,1))],
               [sg.Input(size=(40,3),do_not_clear=False, key='_IN2_')],
               [sg.Image('villelogo.png')],
-              [sg.Output(size=(40,30))],
-              [sg.Button('OK', button_color=('white','green')),sg.Button('F11'),sg.Button('Start'),sg.Exit(button_color=('white','red')),sg.Text('          by Epi')]]
+              [sg.Output(size=(37,30))],
+              [sg.Text('Tehtävä nr:',size=(8,1)),sg.Text('',key='_OUTPUT3_',size=(2,1))],
+              [sg.Text('Oikeita vastauksia:',size=(14,1)),sg.Text('',key='_OUTPUT4_',size=(2,1))],
+              [sg.Button('OK', button_color=('white','green')),sg.Button('F11'),sg.Button('Start'),sg.Text('by Epi',size=(12,1)),sg.Exit(button_color=('white','red'),size=(5,1)),]]
 
 
-    window = sg.Window('VILLEbot v1.0',auto_size_text=False, default_element_size=(20,1), keep_on_top = True).Layout(layout)
+    window = sg.Window('VILLEbot v1.0',auto_size_text=False, default_element_size=(16,1), keep_on_top = True).Layout(layout)
     window.SetIcon('favicon.ico')
-
 
     while True:
         event, values = window.Read(timeout=0)
@@ -56,8 +57,12 @@ def main():
                     pyautogui.press('pgdn')
                 pos = None
                 done = False
+
                 print("\nTehtävä numero: ",task+1)
+                window.FindElement('_OUTPUT3_').Update(task+1)
                 print("Oikeita vastauksia kerätty: ",len(correctAnswers),"\n")
+                window.FindElement('_OUTPUT4_').Update(len(correctAnswers))
+
                 window.Read(timeout=0)
                 while pos is None:
                     for pos in pyautogui.locateAllOnScreen('blue2.png'):
@@ -81,6 +86,7 @@ def main():
                     texts = []
                     locations = []
                     window.Read(timeout=0)
+
                 while True:
                     if last[-1] in wrong[task]:
                         pass
@@ -106,14 +112,6 @@ def main():
 
                     window.Read(timeout=0)
 
-                    # findGreen = pyautogui.locateOnScreen('green.png')
-                    # findGreen2 = pyautogui.locateOnScreen('green3.png')
-                    # if findGreen is None:
-                    #     pyautogui.locateOnScreen('green3.png')
-                    # else:
-                    #     pyautogui.locateOnScreen('green.png')
-
-
                     if pyautogui.locateOnScreen('green.png') != None:
 
                         for i in range(5):
@@ -128,13 +126,11 @@ def main():
                                 pyautogui.click(next)
                             for i in range(5):
                                 pyautogui.press('pgdn')
-                            #time.sleep(0.5)
                             window.Read(timeout=0)
                             break
                         else:
                             print("\nOikea vastaus:")
                             print(last[-1],"\n")
-                            #wrong = []
                             x = pyautogui.locateCenterOnScreen('x.png')
                             if x is not None:
                                 pyautogui.click(pyautogui.locateCenterOnScreen('x.png'))
@@ -157,8 +153,6 @@ def main():
                             break
 
                     if pyautogui.locateOnScreen('green.png') == None:
-                        # if len(wrong) > 5:
-                        #     wrong = []
                         print("\nVäärä vastaus:")
                         print(n,"\n")
                         wrong[task].append(n)
