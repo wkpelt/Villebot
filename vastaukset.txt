@@ -1,4 +1,4 @@
-2.YF12CQ22
+2.
 1: sama kuin sähkövuo pinnan #1 läpi.
 2: pintojen  C  ja  D  läpi.
 3: on nolla.
@@ -6,11 +6,7 @@
 5: on nolla.
 6: Varattu oluttölkki
 
-1t
-1: tangon massa kasvaa ja turkiksen massa vähenee.
-2: säköinen voima varattujen hiukkasten välillä vähenee, kun etäisyys kasvaa.
-
-5ff
+5.
 1: kasvaa.
 2: yhtäsuuri.
 3: pienempi.
@@ -34,20 +30,6 @@
 10: kondensaattorin kapasitanssi ja vastuksen resistanssi
 
 7.
-1: on kohtisuorassa magneettikenttää vastaan.
-2: on negatiivisen  y -akselin suuntainen.
-
-8.
-1: joka on nolla.
-2: jonka suunta on ylÃ¶spÃ¤in.
-3: on positiivisen  y -akselin suuntainen.
-4: on  x -akselilla positiiviseen suuntaan.
-5: ylÃ¶spÃ¤in
-6: poispÃ¤in katsojasta
-7: katsojaa kohti
-8: poluilla  a  ja  c
-
-7.
 1: on kohtisuorassa magneettikenttÃ¤Ã¤ vastaan.
 2: on negatiivisen  y -akselin suuntainen.
 3: on  (âˆ’20Ä±^âˆ’15È·^)  N.
@@ -59,3 +41,13 @@
 9: KentÃ¤t ovat kohtisuorassa toisiaan vastaan.
 10: on nolla.
 11: pyrkii suuntaamaan silmukan niin, ettÃ¤ magneettikenttÃ¤ lÃ¤pÃ¤isee silmukan tason kohtisuoraan.
+
+8.
+1: joka on nolla.
+2: jonka suunta on ylÃ¶spÃ¤in.
+3: on positiivisen  y -akselin suuntainen.
+4: on  x -akselilla positiiviseen suuntaan.
+5: ylÃ¶spÃ¤in
+6: poispÃ¤in katsojasta
+7: katsojaa kohti
+8: poluilla  a  ja  c
