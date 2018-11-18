@@ -101,15 +101,7 @@ def main():
                         n = last[-1]
 
                     window.Read(timeout=0)
-
-                    # findGreen = pyautogui.locateOnScreen('green.png')
-                    # findGreen2 = pyautogui.locateOnScreen('green3.png')
-                    # if findGreen is None:
-                    #     pyautogui.locateOnScreen('green3.png')
-                    # else:
-                    #     pyautogui.locateOnScreen('green.png')
-
-
+                    
                     if pyautogui.locateOnScreen('green.png') != None:
 
                         for i in range(5):
