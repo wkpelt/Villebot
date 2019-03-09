@@ -6,7 +6,6 @@ import pyautogui
 import pyperclip
 import string
 
-
 def main():
     print('Press Ctrl-Alt-Del to stop the bot.')
     texts = []
