@@ -68,7 +68,7 @@ def main():
 
                 window.Read(timeout=0)
                 while pos is None:
-                    for pos in pyautogui.locateAllOnScreen('blue2.png'):
+                    for pos in pyautogui.locateAllOnScreen('blue3.png'):
                         if not done:
                             pyautogui.moveTo(pos[0] - 20, pos[1] + 5)
                             pyautogui.dragRel(700, 45, 0.2, button='left')
