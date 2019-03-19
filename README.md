@@ -1,5 +1,4 @@
 # Villebot
 A multiple-choice question bot for ViLLE
 
-
-Libraries PySimpleGUI, pyautogui and pyperclip are required.
+Use pip3 install to get libraries PySimpleGUI, pyautogui, tkinter, pyperclip are required. (Python 3!)
