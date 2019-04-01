@@ -30,7 +30,7 @@ def main():
               [sg.Image('villelogo.png')],
               [sg.Output(size=(37, 30))],
               [sg.Text('Tehtävä nr:', size=(8, 1)), sg.Text('', key='_OUTPUT3_', size=(2, 1))],
-              [sg.Text('Oikeita vastauksia:', size=(14, 1)), sg.Text('', key='_OUTPUT4_', size=(2, 1))],
+              [sg.Text('Kerättyjä vastauksia:', size=(14, 1)), sg.Text('', key='_OUTPUT4_', size=(2, 1))],
               [sg.Button('OK', button_color=('white', 'green')), sg.Button('F11'), sg.Button('Start'),
                sg.Text('by Epi', size=(12, 1)), sg.Exit(button_color=('white', 'red'), size=(5, 1)), ]]
 
@@ -126,7 +126,9 @@ def main():
                         time.sleep(0.1)
                         pyautogui.press('enter')
 
-                    if pyautogui.locateOnScreen('green.png') is not None:
+                    time.sleep(0.1)
+                    green = pyautogui.locateOnScreen('green.png')
+                    if green is not None:
                         task += 1
                         if len(correct_answers) >= task:
                             pyautogui.press('enter')
@@ -137,7 +139,6 @@ def main():
                         else:
                             print("\nOikea vastaus:")
                             print(last[-1], "\n")
-                            green = pyautogui.locateOnScreen('green.png')
                             pyautogui.moveTo(green[0], green[1])
                             pyautogui.dragRel(700, 45, 0.2, button='left')
                             pyautogui.hotkey('ctrl', 'c')
@@ -149,13 +150,11 @@ def main():
                             window.Read(timeout=0)
                             break
 
-                    if pyautogui.locateOnScreen('green.png') is None:
+                    elif green is None:
                         print("\nVäärä vastaus:")
                         print(n, "\n")
                         wrong[task].append(n)
                         print("\nArvattu ", len(wrong[task]), " kertaa tehtävää numero", len(correct_answers) + 1, "\n")
-                        print(questions)
-                        print(task)
                         task = 0
                         pyautogui.click(pyautogui.locateCenterOnScreen('restart.png'))
                         window.Read(timeout=0)
