@@ -6,7 +6,7 @@ import pyautogui
 import pyperclip
 import string
 import time
-from pynput.mouse import Listener
+#from pynput.mouse import Listener
 
 
 def main():
@@ -30,7 +30,7 @@ def main():
               [sg.Image('villelogo.png')],
               [sg.Output(size=(37, 30))],
               [sg.Text('Tehtävä nr:', size=(8, 1)), sg.Text('', key='_OUTPUT3_', size=(2, 1))],
-              [sg.Text('Kerättyjä vastauksia:', size=(14, 1)), sg.Text('', key='_OUTPUT4_', size=(2, 1))],
+              [sg.Text('Kerättyjä vastauksia:', size=(15, 1)), sg.Text('', key='_OUTPUT4_', size=(2, 1))],
               [sg.Button('OK', button_color=('white', 'green')), sg.Button('F11'), sg.Button('Start'),
                sg.Text('by Epi', size=(12, 1)), sg.Exit(button_color=('white', 'red'), size=(5, 1)), ]]
 
@@ -64,9 +64,7 @@ def main():
                 pos = None
                 done = False
 
-                print("\nTehtävä numero: ", task + 1)
                 window.FindElement('_OUTPUT3_').Update(task + 1)
-                print("Oikeita vastauksia kerätty: ", len(correct_answers), "\n")
                 window.FindElement('_OUTPUT4_').Update(len(correct_answers))
 
                 window.Read(timeout=0)
@@ -89,32 +87,17 @@ def main():
                                         pyautogui.click(locations[i])
                                         window.Read(timeout=0)
                                         done = True
+                            else:
+                                for i in range(len(texts)):
+                                    if texts[i] not in wrong[task]:
+                                        pyautogui.click(locations[i])
+                                        window.Read(timeout=0)
+                                        done = True
                     texts = []
                     locations = []
                     window.Read(timeout=0)
 
                 while True:
-                    if last[-1] in wrong[task]:
-                        pass
-                        if last[-2] in wrong[task]:
-                            pass
-                            if last[-3] in wrong[task]:
-                                pass
-                                if last[-4] in wrong[task]:
-                                    pyautogui.click(choices[-5])
-                                    n = last[-5]
-                                else:
-                                    pyautogui.click(choices[-4])
-                                    n = last[-4]
-                            else:
-                                pyautogui.click(choices[-3])
-                                n = last[-3]
-                        else:
-                            pyautogui.click(choices[-2])
-                            n = last[-2]
-                    else:
-                        pyautogui.click(choices[-1])
-                        n = last[-1]
 
                     window.Read(timeout=0)
 
@@ -126,7 +109,6 @@ def main():
                         time.sleep(0.1)
                         pyautogui.press('enter')
 
-                    time.sleep(0.1)
                     green = pyautogui.locateOnScreen('green.png')
                     if green is not None:
                         task += 1
@@ -137,7 +119,7 @@ def main():
                             window.Read(timeout=0)
                             break
                         else:
-                            print("\nOikea vastaus:")
+                            print("Oikea vastaus:")
                             print(last[-1], "\n")
                             pyautogui.moveTo(green[0], green[1])
                             pyautogui.dragRel(700, 45, 0.2, button='left')
@@ -151,10 +133,10 @@ def main():
                             break
 
                     elif green is None:
-                        print("\nVäärä vastaus:")
-                        print(n, "\n")
-                        wrong[task].append(n)
-                        print("\nArvattu ", len(wrong[task]), " kertaa tehtävää numero", len(correct_answers) + 1, "\n")
+                        print("Väärä vastaus:")
+                        print(last[-1], "\n")
+                        wrong[task].append(last[-1])
+                        print("Arvattu ", len(wrong[task]), " kertaa tehtävää numero", len(correct_answers) + 1, "\n")
                         task = 0
                         pyautogui.click(pyautogui.locateCenterOnScreen('restart.png'))
                         window.Read(timeout=0)
