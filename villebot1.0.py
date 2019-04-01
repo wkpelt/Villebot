@@ -5,6 +5,9 @@ import PySimpleGUI as sg
 import pyautogui
 import pyperclip
 import string
+import time
+from pynput.mouse import Listener
+
 
 def main():
     print('Press Ctrl-Alt-Del to stop the bot.')
@@ -115,15 +118,18 @@ def main():
 
                     window.Read(timeout=0)
 
+                    if (questions == (task+1)):
+                        time.sleep(0.1)
+                        pyautogui.press('tab')
+                        time.sleep(0.1)
+                        pyautogui.press('tab')
+                        time.sleep(0.1)
+                        pyautogui.press('enter')
+
                     if pyautogui.locateOnScreen('green.png') is not None:
                         task += 1
                         if len(correct_answers) >= task:
-                            next2 = pyautogui.locateCenterOnScreen('next2.png')
-                            next = pyautogui.locateCenterOnScreen('next.png')
-                            if next is None:
-                                pyautogui.click(next2)
-                            else:
-                                pyautogui.click(next)
+                            pyautogui.press('enter')
                             for i in range(5):
                                 pyautogui.press('pgdn')
                             window.Read(timeout=0)
@@ -131,24 +137,15 @@ def main():
                         else:
                             print("\nOikea vastaus:")
                             print(last[-1], "\n")
-                            x = pyautogui.locateCenterOnScreen('x.png')
-                            if x is not None:
-                                pyautogui.click(pyautogui.locateCenterOnScreen('x.png'))
                             green = pyautogui.locateOnScreen('green.png')
                             pyautogui.moveTo(green[0], green[1])
                             pyautogui.dragRel(700, 45, 0.2, button='left')
                             pyautogui.hotkey('ctrl', 'c')
                             right_answer = pyperclip.paste()
                             correct_answers.append(right_answer.strip("\r\n"))
-                            next2 = pyautogui.locateCenterOnScreen('next2.png')
-                            next = pyautogui.locateCenterOnScreen('next.png')
-                            if next is None:
-                                pyautogui.click(next2)
-                            else:
-                                pyautogui.click(next)
+                            pyautogui.press('enter')
                             for i in range(5):
                                 pyautogui.press('pgdn')
-                            # time.sleep(0.5)
                             window.Read(timeout=0)
                             break
 
@@ -157,10 +154,9 @@ def main():
                         print(n, "\n")
                         wrong[task].append(n)
                         print("\nArvattu ", len(wrong[task]), " kertaa tehtävää numero", len(correct_answers) + 1, "\n")
+                        print(questions)
+                        print(task)
                         task = 0
-                        x = pyautogui.locateCenterOnScreen('x.png')
-                        if x is not None:
-                            pyautogui.click(pyautogui.locateCenterOnScreen('x.png'))
                         pyautogui.click(pyautogui.locateCenterOnScreen('restart.png'))
                         window.Read(timeout=0)
                         for i in range(5):
@@ -184,6 +180,5 @@ def main():
             correct_answers = []
             task = 0
     window.Close()
-
 
 main()
