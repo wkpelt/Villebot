@@ -6,8 +6,6 @@ import pyautogui
 import pyperclip
 import string
 import time
-#from pynput.mouse import Listener
-
 
 def main():
     print('Press Ctrl-Alt-Del to stop the bot.')
@@ -58,6 +56,7 @@ def main():
             window.FindElement('_OUTPUT_').Update(values['_IN_'])
             window.FindElement('_OUTPUT2_').Update(values['_IN2_'])
         if event == 'Start':
+            restart = pyautogui.locateCenterOnScreen('restart.png')
             while (len(correct_answers)) < questions:
                 for i in range(5):
                     pyautogui.press('pgdn')
@@ -66,10 +65,10 @@ def main():
 
                 window.FindElement('_OUTPUT3_').Update(task + 1)
                 window.FindElement('_OUTPUT4_').Update(len(correct_answers))
-
                 window.Read(timeout=0)
+
                 while pos is None:
-                    for pos in pyautogui.locateAllOnScreen('blue3.png'):
+                    for pos in pyautogui.locateAllOnScreen('blue3.png',grayscale=True):
                         if not done:
                             pyautogui.moveTo(pos[0] - 20, pos[1] + 5)
                             pyautogui.dragRel(700, 45, 0.2, button='left')
@@ -98,9 +97,7 @@ def main():
                     window.Read(timeout=0)
 
                 while True:
-
                     window.Read(timeout=0)
-
                     if (questions == (task+1)):
                         time.sleep(0.1)
                         pyautogui.press('tab')
@@ -121,10 +118,11 @@ def main():
                         else:
                             print("Oikea vastaus:")
                             print(last[-1], "\n")
-                            pyautogui.moveTo(green[0], green[1])
-                            pyautogui.dragRel(700, 45, 0.2, button='left')
-                            pyautogui.hotkey('ctrl', 'c')
-                            right_answer = pyperclip.paste()
+                            #pyautogui.moveTo(green[0], green[1])
+                            #pyautogui.dragRel(700, 45, 0.2, button='left')
+                            #pyautogui.hotkey('ctrl', 'c')
+                            #right_answer = pyperclip.paste()
+                            right_answer = last[-1]
                             correct_answers.append(right_answer.strip("\r\n"))
                             pyautogui.press('enter')
                             for i in range(5):
@@ -138,7 +136,8 @@ def main():
                         wrong[task].append(last[-1])
                         print("Arvattu ", len(wrong[task]), " kertaa tehtävää numero", len(correct_answers) + 1, "\n")
                         task = 0
-                        pyautogui.click(pyautogui.locateCenterOnScreen('restart.png'))
+                        pyautogui.click(restart)
+                        #pyautogui.click(pyautogui.locateCenterOnScreen('restart.png',grayscale=True))
                         window.Read(timeout=0)
                         for i in range(5):
                             pyautogui.press('pgdn')
