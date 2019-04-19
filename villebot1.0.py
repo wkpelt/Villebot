@@ -1,6 +1,6 @@
 #VILLEBot v1.0
 #Author = Wiljam Peltomaa
-#Last updated = 19.11.2018
+#Last updated = 19.04.2019
 import PySimpleGUI as sg
 import pyautogui
 import pyperclip

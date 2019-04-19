@@ -27,4 +27,9 @@ def on_click(x, y, button, pressed):
 
 listener = Listener(on_click=on_click)
 listener.start()
-print(pyautogui.size())
+while True:
+    if clicked == 2:
+        listener.stop()
+        break
+    else:
+        pass
