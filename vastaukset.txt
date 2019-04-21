@@ -133,3 +133,9 @@ Tehtävä
 2: SSH
 3: komento; vipu; vipu
 4: komento; vipu; parametri; parametri
+
+
+1: SSH
+2: SSH
+3: komento; vipu; vipu
+4: komento; vipu; parametri; parametri
