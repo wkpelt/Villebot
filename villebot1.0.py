@@ -126,6 +126,7 @@ def main():
                             pyautogui.press('enter')
                             task += 1
                             print("Skip\n")
+                            break
 
                     green = pyautogui.locateOnScreen('green.png')
 

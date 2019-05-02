@@ -8,3 +8,9 @@ Tehtävä
 3: komento; vipu; vipu
 4: komento; vipu; parametri; parametri
 
+
+Unix 1.
+1: SSH
+2: SSH
+3: komento; vipu; vipu
+4: komento; vipu; parametri; parametri
